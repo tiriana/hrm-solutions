@@ -35,6 +35,8 @@
   },
   "scripts": {
     "test": "gulp",
+    "test:level": "gulp testLevel",
+    "test:solution": "gulp testSolution",
     "build": "gulp build",
     "serve": "serve build"
   },

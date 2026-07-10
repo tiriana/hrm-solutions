@@ -573,4 +573,34 @@ export const build = gulp.series(
   gulp.parallel(buildDataJsonp, buildGraphs, buildPage),
 );
 
+export function testLevel() {
+  const levelNumber = process.env.LEVEL || '38';
+  const pattern = `solutions/${String(levelNumber).padStart(2, '0')}-*/*.asm`;
+  
+  return gulp
+    .src(pattern)
+    .pipe(inspect())
+    .pipe(benchmark())
+    .pipe(report());
+}
+
+export function testSolution() {
+  const levelNumber = process.env.LEVEL || '38';
+  const solutionName = process.env.SOLUTION;
+  
+  if (!solutionName) {
+    console.error('\n❌ Error: SOLUTION environment variable is required');
+    console.error('\nUsage: LEVEL=38 SOLUTION="25.218-skwasjer" yarn test:solution\n');
+    process.exit(1);
+  }
+  
+  const pattern = `solutions/${String(levelNumber).padStart(2, '0')}-*/${solutionName}.asm`;
+  
+  return gulp
+    .src(pattern)
+    .pipe(inspect())
+    .pipe(benchmark())
+    .pipe(report());
+}
+
 export default gulp.series(buildClean, buildContributors, buildDataPrograms);
